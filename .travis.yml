@@ -3,7 +3,7 @@ go:
   - 1.2
 
 install:
-  - EXPORT GOBIN=`pwd`
+  - export GOBIN=`pwd`
   - go get -d -v -t ./...
   - go build -v ./...
   - go get github.com/onsi/ginkgo/ginkgo
