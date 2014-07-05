@@ -1,4 +1,4 @@
-package main
+package parser
 
 import "fmt"
 
@@ -13,16 +13,16 @@ func NewJavaParser() *Parser {
 
 
 func (p *Parser) ParseWhiteSpace(s string) {
-  if p.cursor_env != "WHITESPACE" { return }
+  if p.CursorEnv != "WHITESPACE" { return }
   if s == "\n" || s == "\t" || s == "\r" || s == " " {
-    p.match = true
+    p.Match = true
   } else {
-    p.cursor_env = "CONTENT"
+    p.CursorEnv = "CONTENT"
   }
 }
 
 func (p *Parser) ParseContent(s string) {
-  if p.cursor_env != "CONTENT" && p.cursor_env != "CODE" { return }
+  if p.CursorEnv != "CONTENT" && p.CursorEnv != "CODE" { return }
   switch p.indicator {
   case "/":
     switch s {
@@ -31,20 +31,20 @@ func (p *Parser) ParseContent(s string) {
     case "*":
       p.NewMultiComment()
     default:
-      if p.cursor_env == "CONTENT" { p.NewCode() }
+      if p.CursorEnv == "CONTENT" { p.NewCode() }
     }
   default:
     switch s {
     case "/":
       p.indicator = "/"
     default:
-      if p.cursor_env == "CONTENT" { p.NewCode() }
+      if p.CursorEnv == "CONTENT" { p.NewCode() }
     }
   }
 }
 
 func (p *Parser) ParseCode(s string) {
-  if p.cursor_env != "CODE" { return }
+  if p.CursorEnv != "CODE" { return }
   
   switch s {
   case "/":
@@ -66,7 +66,7 @@ func (p *Parser) ParseCode(s string) {
 
 
 func (p *Parser) ParseSingleComment(s string) {
-  if p.cursor_env != "SINGLE COMMENT" { return }
+  if p.CursorEnv != "SINGLE COMMENT" { return }
   switch s {
   case "\n":
     p.EndSingleComment()
@@ -77,7 +77,7 @@ func (p *Parser) ParseSingleComment(s string) {
 
 
 func (p *Parser) ParseMultiComment(s string) {
-  if p.cursor_env != "MULTI COMMENT" { return }
+  if p.CursorEnv != "MULTI COMMENT" { return }
 
   switch p.indicator {
   case "*":
@@ -99,7 +99,7 @@ func (p *Parser) ParseMultiComment(s string) {
 
 
 func (p *Parser) ParseString(s string) {
-  if p.cursor_env != "STRING" { return }
+  if p.CursorEnv != "STRING" { return }
   switch p.indicator {
   case "\\":
     p.AddChar(s)
@@ -117,7 +117,7 @@ func (p *Parser) ParseString(s string) {
 
 
 func (p *Parser) ParseChar(s string) {
-  if p.cursor_env != "CHAR" { return }
+  if p.CursorEnv != "CHAR" { return }
   switch p.indicator {
   case "\\":
     p.AddChar(s)

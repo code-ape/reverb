@@ -4,6 +4,7 @@ import (
   "fmt"
   "os"
   "bufio"
+  "github.com/code-ape/reverb/parser"
 )
 
 func MapDependencies(target_file string) {
@@ -23,7 +24,7 @@ func MapDependencies(target_file string) {
   scanner := bufio.NewScanner(fi)
   scanner.Split(bufio.ScanRunes)
 
-  p := NewJavaParser()
+  p := parser.NewJavaParser()
 
   for scanner.Scan() {
     p.Parse(scanner.Text())
