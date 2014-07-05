@@ -4,7 +4,6 @@ go:
 
 install:
   - go get -v -t ./...
-  - go get github.com
 
 script:
   - ginkgo -r
