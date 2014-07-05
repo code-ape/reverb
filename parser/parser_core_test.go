@@ -9,44 +9,42 @@ import (
 
 var _ = Describe("ParserCore", func() {
 
+	Describe("NewParser", func() {
 
+		var (
+			p      *Parser
+			null_p *Parser
+		)
 
-  Describe("NewParser", func(){
+		BeforeEach(func() {
+			p = NewParser()
+			null_p = &Parser{}
+		})
 
-    var (
-      p *Parser
-      null_p *Parser
-    )
+		It("returns parser pointer", func() {
+			Expect(p).Should(BeAssignableToTypeOf(null_p))
+		})
+	})
 
-    BeforeEach(func() {
-      p = NewParser()
-      null_p = &Parser{}
-    })
+	Describe("IncrementCursor", func() {
 
-    It("returns parser pointer", func() {
-      Expect(p).Should(BeAssignableToTypeOf(null_p))
-    })
-  })
+		It("increments char number", func() {
+			p := NewParser()
+			line_i, char_i := p.LineNum, p.CharNum
+			p.IncrementCursor("s")
+			line_f, char_f := p.LineNum, p.CharNum
+			Expect(line_f).Should(Equal(line_i))
+			Expect(char_f).Should(Equal(char_i + 1))
+		})
 
-  Describe("IncrementCursor", func() {
-
-    It("increments char number", func() {
-      p := NewParser()
-      line_i, char_i := p.LineNum, p.CharNum
-      p.IncrementCursor("s")
-      line_f, char_f := p.LineNum, p.CharNum
-      Expect(line_f).Should(Equal( line_i ))
-      Expect(char_f).Should(Equal( char_i + 1 ))
-    })
-  
-    It("increments line number", func() {
-      p := NewParser()
-      line_i, char_i := p.LineNum, p.CharNum
-      p.IncrementCursor("\n")
-      line_f, char_f := p.LineNum, p.CharNum
-      Expect(line_f).Should(Equal( line_i + 1) )
-      Expect(char_f).Should(Equal( char_i ))
-    })
-  })
+		It("increments line number", func() {
+			p := NewParser()
+			line_i, char_i := p.LineNum, p.CharNum
+			p.IncrementCursor("\n")
+			line_f, char_f := p.LineNum, p.CharNum
+			Expect(line_f).Should(Equal(line_i + 1))
+			Expect(char_f).Should(Equal(char_i))
+		})
+	})
 
 })

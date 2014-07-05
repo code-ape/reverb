@@ -3,13 +3,12 @@ go:
   - 1.2
 
 install:
-  - export GOBIN=`pwd`
+  - mkdir TEMP_EXE
+  - export GOBIN=`pwd`/TEMP_EXE
+  - export PATH=$PATH:$GOBIN
   - go get -d -v -t ./...
   - go build -v ./...
   - go get github.com/onsi/ginkgo/ginkgo
 
 script:
-  - ls
-  - ls ..
-  - go test
-  - ./ginkgo -r
+  - ginkgo -r

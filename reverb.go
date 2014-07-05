@@ -1,9 +1,7 @@
 package main
 
-import (
-)
+import ()
 
 func main() {
-  ParseCli()
+	ParseCli()
 }
-
