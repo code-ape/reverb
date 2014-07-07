@@ -9,7 +9,7 @@ def main():
   app_dir  = file_dir.rsplit('/',1)[0]
   print app_dir
 
-  profiles = get_profiles()
+  profiles = get_profiles(app_dir)
 
   f_dir = os.path.join(app_dir, master_profile)
   
@@ -25,7 +25,7 @@ def main():
       os.remove(p)
 
 
-def get_profiles():
+def get_profiles(app_dir):
   profiles = []
 
   for root, dirs, files in os.walk(app_dir):
