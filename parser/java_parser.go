@@ -146,12 +146,12 @@ func (p *Parser) ParseChar(s string) {
 }
 
 func (p *Parser) PrintBlocks() {
-	PrintBlockLoop(p.blocks)
+	PrintBlockLoop([]*Item{p.Content})
 }
 
 func PrintBlockLoop(blocks []*Item) {
 	for _, b := range blocks {
-		fmt.Println("Kind:", b.kind)
+		fmt.Println("Kind:", b.Kind)
 		fmt.Println("Text:", b.Text)
 		fmt.Println("CHILDREN:")
 		PrintBlockLoop(b.ChildItems)

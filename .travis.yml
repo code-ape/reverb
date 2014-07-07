@@ -3,12 +3,18 @@ go:
   - 1.2
 
 install:
-  - mkdir TEMP_EXE
-  - export GOBIN=`pwd`/TEMP_EXE
-  - export PATH=$PATH:$GOBIN
-  - go get -d -v -t ./...
-  - go build -v ./...
-  - go get github.com/onsi/ginkgo/ginkgo
+  - go get code.google.com/p/go.tools/cmd/cover
+  - go get github.com/mattn/goveralls
+  - go get github.com/axw/gocov/gocov
+  - go get -v -t ./...
+  - go install github.com/onsi/ginkgo/ginkgo
+  - export PATH=$PATH:$HOME/gopath/bin
 
 script:
-  - ginkgo -r
+  - ginkgo -r --cover
+  - python tools/combine_cover_profiles.py 
+  - goveralls -coverprofile=MASTER.coverprofile -service=travis-ci -repotoken $COVERALLS_TOKEN
+
+env:
+  global:
+    secure: OC2V9g+JG5sNhIlz1FhWulxD2Vre3G0j9OErEp1OX/d+zGOQSnPGZoiSHspy53tjQ5cE9tAQu/TxmAtnr39hTxJzF3iatzRZykIBF284kYsJ/bcLJv957cXDtYyDHsMa9TyjSQF9J0hxywqWpULl2/2BEQjVcqgUR+OS+Quwo0o=

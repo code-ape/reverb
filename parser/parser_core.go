@@ -9,13 +9,13 @@ type Parser struct {
 	line          string
 	block         string
 	indicator     string
-	blocks        []*Item
+	Content       *Item
 	current_block *Item
 	parsers       []func(string)
 }
 
 type Item struct {
-	kind      string
+	Kind      string
 	reference string
 	Text      string
 
@@ -32,9 +32,8 @@ func NewParser() *Parser {
 	p := Parser{}
 	p.LineNum = 1
 	p.CharNum = 0
-	p.current_block = &Item{kind: "CORE"}
-	p.blocks = []*Item{p.current_block}
-	p.NewWhiteSpace()
+	p.current_block = &Item{Kind: "WHITESPACE"}
+	p.Content = p.current_block
 	parsers := []func(string){p.IncrementCursor}
 	p.RegisterParsers(parsers)
 	return &p
@@ -69,22 +68,27 @@ func (p *Parser) IncrementCursor(s string) {
 	}
 }
 
-func (p *Parser) NewBlock(kind string) {
+func (p *Parser) NewBlock(kind string) *Item {
 	i := &Item{}
-	i.kind = kind
+	i.Kind = kind
+	i.StartLineNum = p.LineNum
+	i.StartCharNum = p.CharNum
+	return i
+}
+
+func (p *Parser) AddBlock(kind string) {
+	i := p.NewBlock(kind)
 	i.ParentItem = p.current_block
 	p.current_block.ChildItems = append(p.current_block.ChildItems, i)
 	p.current_block = i
 	p.CursorEnv = kind
-	i.StartLineNum = p.LineNum
-	i.StartCharNum = p.CharNum
 }
 
 func (p *Parser) EndBlock() {
 	p.current_block.EndLineNum = p.LineNum
 	p.current_block.EndCharNum = p.CharNum
 	p.current_block = p.current_block.ParentItem
-	p.CursorEnv = p.current_block.kind
+	p.CursorEnv = p.current_block.Kind
 }
 
 func (p *Parser) AddChar(s string) {
@@ -94,7 +98,7 @@ func (p *Parser) AddChar(s string) {
 }
 
 func (p *Parser) NewWhiteSpace() {
-	p.NewBlock("WHITESPACE")
+	p.AddBlock("WHITESPACE")
 }
 
 func (p *Parser) EndWhiteSpace() {
@@ -102,7 +106,7 @@ func (p *Parser) EndWhiteSpace() {
 }
 
 func (p *Parser) NewSingleComment() {
-	p.NewBlock("SINGLE COMMENT")
+	p.AddBlock("SINGLE COMMENT")
 	p.current_block.StartCharNum += -1
 	p.AddChar("/")
 }
@@ -115,7 +119,7 @@ func (p *Parser) EndSingleComment() {
 }
 
 func (p *Parser) NewMultiComment() {
-	p.NewBlock("MULTI COMMENT")
+	p.AddBlock("MULTI COMMENT")
 	p.current_block.StartCharNum += -1
 	p.AddChar("*")
 }
@@ -126,7 +130,7 @@ func (p *Parser) EndMultiComment() {
 }
 
 func (p *Parser) NewCode() {
-	p.NewBlock("CODE")
+	p.AddBlock("CODE")
 }
 
 func (p *Parser) EndCode() {
@@ -143,7 +147,7 @@ func (p *Parser) EndBody() {
 }
 
 func (p *Parser) NewChar() {
-	p.NewBlock("CHAR")
+	p.AddBlock("CHAR")
 	p.AddChar("'")
 }
 
@@ -153,7 +157,7 @@ func (p *Parser) EndChar() {
 }
 
 func (p *Parser) NewString() {
-	p.NewBlock("STRING")
+	p.AddBlock("STRING")
 	p.AddChar("\"")
 }
 

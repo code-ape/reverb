@@ -7,14 +7,15 @@ import (
 	. "github.com/onsi/gomega"
 )
 
+const TestKind = "TEST_KIND"
+
 var _ = Describe("ParserCore", func() {
+
+  var p *Parser
 
 	Describe("NewParser", func() {
 
-		var (
-			p      *Parser
-			null_p *Parser
-		)
+		var null_p *Parser
 
 		BeforeEach(func() {
 			p = NewParser()
@@ -24,27 +25,65 @@ var _ = Describe("ParserCore", func() {
 		It("returns parser pointer", func() {
 			Expect(p).Should(BeAssignableToTypeOf(null_p))
 		})
+
 	})
+
 
 	Describe("IncrementCursor", func() {
 
+    BeforeEach(func(){
+      p = NewParser()
+    })
+
 		It("increments char number", func() {
-			p := NewParser()
 			line_i, char_i := p.LineNum, p.CharNum
 			p.IncrementCursor("s")
-			line_f, char_f := p.LineNum, p.CharNum
-			Expect(line_f).Should(Equal(line_i))
-			Expect(char_f).Should(Equal(char_i + 1))
+			Expect(p.LineNum).Should(Equal(line_i))
+			Expect(p.CharNum).Should(Equal(char_i + 1))
 		})
 
 		It("increments line number", func() {
-			p := NewParser()
 			line_i, char_i := p.LineNum, p.CharNum
 			p.IncrementCursor("\n")
-			line_f, char_f := p.LineNum, p.CharNum
-			Expect(line_f).Should(Equal(line_i + 1))
-			Expect(char_f).Should(Equal(char_i))
+			Expect(p.LineNum).Should(Equal(line_i + 1))
+			Expect(p.CharNum).Should(Equal(char_i))
 		})
+
 	})
+
+  Describe("NewBlock", func() {
+    var b *Item
+
+    BeforeEach(func() {
+      p = NewParser()
+      b = p.NewBlock(TestKind)
+    })
+
+    It("is has the kind it was inited with", func() {
+      Expect(b.Kind).Should(Equal(TestKind))
+    })
+
+    It("inits with the correct line and char number", func() {
+      Expect(b.StartLineNum).Should(Equal(p.LineNum))
+      Expect(b.StartCharNum).Should(Equal(p.CharNum))
+    })
+
+  })
+
+  Describe("AddBlock", func() {
+
+    BeforeEach(func() {
+      p = NewParser()
+
+    })
+
+    It("adds a block under the current one", func() {
+      len_child_i := len(p.Content.ChildItems)
+      p.AddBlock(TestKind)
+      len_child_f := len(p.Content.ChildItems)
+      Expect(len_child_f).Should(Equal(len_child_i + 1))
+      })
+
+  })
 
 })
