@@ -1,7 +1,6 @@
 language: go
 go:
   - 1.2
-
 install:
   - go get code.google.com/p/go.tools/cmd/cover
   - go get github.com/mattn/goveralls
@@ -16,12 +15,11 @@ script:
 notifications:
   webhooks:
     urls:
-      - $BOT_URL
+      - $BOT_URL_TOKEN
     on_success: always
     on_failure: always
     on_start: true
-
 env:
   global:
-  - secure: OC2V9g+JG5sNhIlz1FhWulxD2Vre3G0j9OErEp1OX/d+zGOQSnPGZoiSHspy53tjQ5cE9tAQu/TxmAtnr39hTxJzF3iatzRZykIBF284kYsJ/bcLJv957cXDtYyDHsMa9TyjSQF9J0hxywqWpULl2/2BEQjVcqgUR+OS+Quwo0o=
-  - secure: mKXdU3XfAFf8tR7Skg4ihNaEHWGrrOclV9Pm9NQVKyHdpZp5TEpJRbEHBVpVRN+1AC//FPtGVCvy2SW3EGDXlzsFBMgpZ4+7RDE4oHHTblDe9Sb23A7RXP3XlD4g2DUIH2IFWm7VsQCX9McyJ3Ett+MGbIkWj0YvXqrvuUuROWE=
+    - secure: OC2V9g+JG5sNhIlz1FhWulxD2Vre3G0j9OErEp1OX/d+zGOQSnPGZoiSHspy53tjQ5cE9tAQu/TxmAtnr39hTxJzF3iatzRZykIBF284kYsJ/bcLJv957cXDtYyDHsMa9TyjSQF9J0hxywqWpULl2/2BEQjVcqgUR+OS+Quwo0o=
+    - secure: K1Sj061Rf6KQkbej8WdkQc88mlv1rZh0U3aW9YAStiUnuilnztv83f2k8r+D5n4T4KbFtOWM6QibJTT9r7K0rGG0wYL/GvIxo+mX+3EoE2rATo/rvWxvWoB33lNcDM1uhReucbN74r/1XugUAYoVnPH+iIs3l2S8qW/mufSuMFw=
