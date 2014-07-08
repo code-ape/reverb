@@ -15,7 +15,7 @@ script:
 notifications:
   webhooks:
     urls:
-      secure: skADvq0Y4RywUrjOdAQufUTWUig23jHq8eKvO+ehi/ojT44i3yb4VZ3fNFF5j96wqrkm0BBoweJZIafOeBTy6nQT9S1NfnGc6EO3F8ypQTqIR3zVPGF7NvOm7NOytuIruzy3j0HQ46f0fRQ7+FjX0sxfUpIgyYiAcckOU0wVlQc=
+      secure: j5e2+oA86qvQnVmvxfgFaARGfTtEqLf4uD5EOFQ/osEEcvCUAN3fQhmjEjOUiTY8b5WghGrDtqWSkwy1bZ84Divn1Skua6mOMwByRpH9l9DgMA0+3ylyBtjM+jX/HFU+V/WGLIjogjx9KnpyD/3on21fd+Em16wq5xuu3A65pd0=
     on_success: always
     on_failure: always
     on_start: true
