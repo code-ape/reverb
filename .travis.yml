@@ -16,7 +16,11 @@ script:
 notifications:
   webhooks:
     urls:
-    - $BOT_URL
+      - $BOT_URL
+    on_success: always
+    on_failure: always
+    on_start: true
+
 env:
   global:
   - secure: OC2V9g+JG5sNhIlz1FhWulxD2Vre3G0j9OErEp1OX/d+zGOQSnPGZoiSHspy53tjQ5cE9tAQu/TxmAtnr39hTxJzF3iatzRZykIBF284kYsJ/bcLJv957cXDtYyDHsMa9TyjSQF9J0hxywqWpULl2/2BEQjVcqgUR+OS+Quwo0o=
