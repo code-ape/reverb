@@ -1,25 +1,24 @@
 language: go
 go:
-  - 1.2
+- 1.2
 install:
-  - go get code.google.com/p/go.tools/cmd/cover
-  - go get github.com/mattn/goveralls
-  - go get github.com/axw/gocov/gocov
-  - go get -v -t ./...
-  - go install github.com/onsi/ginkgo/ginkgo
-  - export PATH=$PATH:$HOME/gopath/bin
+- go get code.google.com/p/go.tools/cmd/cover
+- go get github.com/mattn/goveralls
+- go get github.com/axw/gocov/gocov
+- go get -v -t ./...
+- go install github.com/onsi/ginkgo/ginkgo
+- export PATH=$PATH:$HOME/gopath/bin
 script:
-  - ginkgo -r --cover
-  - python tools/combine_cover_profiles.py
-  - goveralls -coverprofile=MASTER.coverprofile -service=travis-ci -repotoken $COVERALLS_TOKEN
+- ginkgo -r --cover
+- python tools/combine_cover_profiles.py
+- goveralls -coverprofile=MASTER.coverprofile -service=travis-ci -repotoken $COVERALLS_TOKEN
 notifications:
   webhooks:
     urls:
-      - $BOT_URL_TOKEN
+      secure: skADvq0Y4RywUrjOdAQufUTWUig23jHq8eKvO+ehi/ojT44i3yb4VZ3fNFF5j96wqrkm0BBoweJZIafOeBTy6nQT9S1NfnGc6EO3F8ypQTqIR3zVPGF7NvOm7NOytuIruzy3j0HQ46f0fRQ7+FjX0sxfUpIgyYiAcckOU0wVlQc=
     on_success: always
     on_failure: always
     on_start: true
 env:
   global:
-    - secure: OC2V9g+JG5sNhIlz1FhWulxD2Vre3G0j9OErEp1OX/d+zGOQSnPGZoiSHspy53tjQ5cE9tAQu/TxmAtnr39hTxJzF3iatzRZykIBF284kYsJ/bcLJv957cXDtYyDHsMa9TyjSQF9J0hxywqWpULl2/2BEQjVcqgUR+OS+Quwo0o=
-    - secure: K1Sj061Rf6KQkbej8WdkQc88mlv1rZh0U3aW9YAStiUnuilnztv83f2k8r+D5n4T4KbFtOWM6QibJTT9r7K0rGG0wYL/GvIxo+mX+3EoE2rATo/rvWxvWoB33lNcDM1uhReucbN74r/1XugUAYoVnPH+iIs3l2S8qW/mufSuMFw=
+  - secure: OC2V9g+JG5sNhIlz1FhWulxD2Vre3G0j9OErEp1OX/d+zGOQSnPGZoiSHspy53tjQ5cE9tAQu/TxmAtnr39hTxJzF3iatzRZykIBF284kYsJ/bcLJv957cXDtYyDHsMa9TyjSQF9J0hxywqWpULl2/2BEQjVcqgUR+OS+Quwo0o=
