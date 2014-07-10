@@ -1,6 +1,9 @@
 language: go
 go:
 - 1.2
+branches:
+  only:
+  - master
 install:
 - go get code.google.com/p/go.tools/cmd/cover
 - go get github.com/mattn/goveralls
@@ -18,7 +21,6 @@ notifications:
       secure: G/cdNBEiDW1S2TeXDQxkjFuBDo3pjpTAJ/AMuhwzDIktY+5X/ZSG9unvD/cgJYsLXlmZFFcKyVwA7ZOOr/5IXtKZXdW+ay+23X8FtSkEMOLlX6iM2MsZO3AM69HMVk9tZveDosLByFzZBr2UMHj43jP9GCoOSCGJrgPBoFcSTE4=
     on_success: always
     on_failure: always
-    on_start: true
 env:
   global:
   - secure: OC2V9g+JG5sNhIlz1FhWulxD2Vre3G0j9OErEp1OX/d+zGOQSnPGZoiSHspy53tjQ5cE9tAQu/TxmAtnr39hTxJzF3iatzRZykIBF284kYsJ/bcLJv957cXDtYyDHsMa9TyjSQF9J0hxywqWpULl2/2BEQjVcqgUR+OS+Quwo0o=
