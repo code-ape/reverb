@@ -39,9 +39,9 @@ var _ = Describe("JavaParser Integration", func() {
 
     Context("in head block", func() {
       Context("multiline comment", func() {
-        var mc *Item
+        var mc *Block
         BeforeEach(func() {
-          mc = p.Content.ChildItems[1]
+          mc = p.Content.ChildBlocks[1]
         })
         It("has correct Kind", func() {
           Expect(mc.Kind).Should(Equal("MULTI COMMENT"))
@@ -61,8 +61,8 @@ var _ = Describe("JavaParser Integration", func() {
         It("has correct text", func() {
           Expect(mc.Text).Should(Equal(multicomment_1))
         })
-        It("has correct parent item", func() {
-          Expect(mc.ParentItem).Should(Equal(p.Content))
+        It("has correct parent block", func() {
+          Expect(mc.ParentBlock).Should(Equal(p.Content))
         })
       })
     

@@ -56,7 +56,7 @@ var _ = Describe("ParserCore", func() {
 	})
 
   Describe("NewBlock", func() {
-    var b *Item
+    var b *Block
 
     BeforeEach(func() {
       p = NewParser()
@@ -82,22 +82,22 @@ var _ = Describe("ParserCore", func() {
     })
 
     It("adds a block under the current one", func() {
-      len_child_i := len(p.Content.ChildItems)
+      len_child_i := len(p.Content.ChildBlocks)
       p.AddBlock(TestKind)
-      len_child_f := len(p.Content.ChildItems)
+      len_child_f := len(p.Content.ChildBlocks)
       Expect(len_child_f).Should(Equal(len_child_i + 1))
     })
 
     It("new block is child of previous block", func() {
       b_i := p.CurrentBlock
       p.AddBlock(TestKind)
-      Expect(b_i.ChildItems).Should(ContainElement(p.CurrentBlock))
+      Expect(b_i.ChildBlocks).Should(ContainElement(p.CurrentBlock))
     })
 
     It("previous block is parent of new block", func() {
       b_i := p.CurrentBlock
       p.AddBlock(TestKind)
-      Expect(p.CurrentBlock.ParentItem).Should(Equal(b_i))
+      Expect(p.CurrentBlock.ParentBlock).Should(Equal(b_i))
     })
 
   })
@@ -118,13 +118,13 @@ var _ = Describe("ParserCore", func() {
       })
 
       It("sets current block to parent block", func() {
-        par := p.CurrentBlock.ParentItem
+        par := p.CurrentBlock.ParentBlock
         p.EndBlock()
         Expect(p.CurrentBlock).Should(Equal(par))
       })
 
       It("sets cursor to parent block kind", func() {
-        par := p.CurrentBlock.ParentItem
+        par := p.CurrentBlock.ParentBlock
         p.EndBlock()
         Expect(p.CursorEnv).Should(Equal(par.Kind))
       })
