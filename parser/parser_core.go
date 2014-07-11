@@ -8,7 +8,7 @@ type Parser struct {
 	LastLineLen   int
 	line          string
 	block         string
-	indicator     string
+	Indicator     string
 	Content       *Item
 	CurrentBlock *Item
 	parsers       []func(string)
@@ -34,6 +34,7 @@ func NewParser() *Parser {
 	p.CharNum = 0
 	p.CurrentBlock = &Item{Kind: "WHITESPACE"}
 	p.Content = p.CurrentBlock
+  p.CursorEnv = p.CurrentBlock.Kind
 	parsers := []func(string){p.IncrementCursor}
 	p.RegisterParsers(parsers)
 	return &p
@@ -92,8 +93,8 @@ func (p *Parser) EndBlock() {
 }
 
 func (p *Parser) AddChar(s string) {
-	p.CurrentBlock.Text += p.indicator + s
-	p.indicator = ""
+	p.CurrentBlock.Text += p.Indicator + s
+	p.Indicator = ""
 	p.Match = true
 }
 

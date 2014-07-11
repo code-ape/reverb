@@ -26,6 +26,10 @@ var _ = Describe("ParserCore", func() {
 			Expect(p).Should(BeAssignableToTypeOf(null_p))
 		})
 
+    It("sets CursorEnv to CurrentBlock Kind", func() {
+      Expect(p.CursorEnv).Should(Equal(p.CurrentBlock.Kind))
+    })
+
 	})
 
 
@@ -127,6 +131,15 @@ var _ = Describe("ParserCore", func() {
 
     })
 
+  })
+
+  Describe("AddChar", func() {
+    It("adds indicator then given char to text of currentblock", func() {
+      p.CurrentBlock.Text = "a"
+      p.Indicator = "b"
+      p.AddChar("c")
+      Expect(p.CurrentBlock.Text).Should(Equal("abc"))
+      })
   })
 
 })

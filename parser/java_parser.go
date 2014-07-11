@@ -25,7 +25,7 @@ func (p *Parser) ParseContent(s string) {
 	if p.CursorEnv != "CONTENT" && p.CursorEnv != "CODE" {
 		return
 	}
-	switch p.indicator {
+	switch p.Indicator {
 	case "/":
 		switch s {
 		case "/":
@@ -40,7 +40,7 @@ func (p *Parser) ParseContent(s string) {
 	default:
 		switch s {
 		case "/":
-			p.indicator = "/"
+			p.Indicator = "/"
 		default:
 			if p.CursorEnv == "CONTENT" {
 				p.NewCode()
@@ -56,7 +56,7 @@ func (p *Parser) ParseCode(s string) {
 
 	switch s {
 	case "/":
-		p.indicator = "/"
+		p.Indicator = "/"
 	case "'":
 		p.NewChar()
 	case "\"":
@@ -89,18 +89,21 @@ func (p *Parser) ParseMultiComment(s string) {
 		return
 	}
 
-	switch p.indicator {
+	switch p.Indicator {
 	case "*":
 		switch s {
 		case "/":
 			p.EndMultiComment()
+    case "*":
+      p.AddChar("")
+      p.Indicator = "*"
 		default:
 			p.AddChar(s)
 		}
 	default:
 		switch s {
 		case "*":
-			p.indicator = "*"
+			p.Indicator = "*"
 		default:
 			p.AddChar(s)
 		}
@@ -111,13 +114,13 @@ func (p *Parser) ParseString(s string) {
 	if p.CursorEnv != "STRING" {
 		return
 	}
-	switch p.indicator {
+	switch p.Indicator {
 	case "\\":
 		p.AddChar(s)
 	default:
 		switch s {
 		case "\\":
-			p.indicator = "\\"
+			p.Indicator = "\\"
 		case "\"":
 			p.EndString()
 		default:
@@ -130,13 +133,13 @@ func (p *Parser) ParseChar(s string) {
 	if p.CursorEnv != "CHAR" {
 		return
 	}
-	switch p.indicator {
+	switch p.Indicator {
 	case "\\":
 		p.AddChar(s)
 	default:
 		switch s {
 		case "\\":
-			p.indicator = "\\"
+			p.Indicator = "\\"
 		case "'":
 			p.EndChar()
 		default:

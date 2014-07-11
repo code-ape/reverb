@@ -29,13 +29,13 @@ func MapDependencies(target_file string) {
 	p := parser.NewJavaParser()
 
 	for scanner.Scan() {
+		//fmt.Print(scanner.Text())
 		p.Parse(scanner.Text())
 	}
 
 	if err := scanner.Err(); err != nil {
 		fmt.Println("ERROR WITH SCANNER", scanner.Err())
 	}
-
 	p.PrintBlocks()
 
 }
