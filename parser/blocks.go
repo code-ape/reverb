@@ -16,6 +16,11 @@ type Item struct {
   EndCharNum   int
 }
 
+type Package struct {
+  Item *Item
+  Static bool
+  PackageName string
+}
 
 type Variable struct {
   Name string

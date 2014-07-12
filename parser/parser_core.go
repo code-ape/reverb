@@ -129,6 +129,14 @@ func (p *Parser) EndCode() {
 }
 
 func (p *Parser) NewBody() {
+  endChar := p.CharNum - 1
+  p.CurrentBlock.EndLineNum = p.LineNum
+  if endChar == 0 {
+    p.CurrentBlock.EndLineNum += -1
+    p.CurrentBlock.EndCharNum = p.LastLineLen
+  } else {
+    p.CurrentBlock.EndCharNum = endChar
+  }
 	p.NewWhiteSpace()
 }
 
