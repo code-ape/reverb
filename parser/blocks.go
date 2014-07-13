@@ -17,14 +17,14 @@ type Item struct {
 }
 
 type Package struct {
-  Item *Item
-  Static bool
+  Item        *Item
+  Static      bool
   PackageName string
 }
 
 type Variable struct {
-  Name string
-  Type string
+  Name        string
+  Type        string
   Declaration *VariableDeclaration
   // Scope ???
 }
@@ -32,29 +32,29 @@ type Variable struct {
 
 type VariableDeclaration struct {
   Item
-  Variable *Variable
+  Variable   *Variable
   Assignemnt *ValueAssignment
 }
 
 
 type ValueAssignment struct {
   Item
-  Target *Variable
+  Target       *Variable
   Dependencies *Variable
 }
 
 
 type MethodDeclaration struct {
   Item
-  Modifier string // public, private
-  ReturnType string
-  Name string
-  Arguments *[]Variable
+  Modifier       string // public, private
+  ReturnType     string
+  Name           string
+  Arguments      *[]Variable
   MethodVariable *Variable
 }
 
 
 type MethodCall struct {
   Declaration *MethodDeclaration
-  Arguments *[]Variable
+  Arguments   *[]Variable
 }
