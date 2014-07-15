@@ -8,32 +8,22 @@ type Parser struct {
 	LastLineLen   int
 	line          string
 	block         string
-	indicator     string
-	Content       *Item
-	CurrentBlock *Item
+	Indicator     string
+	Content       *Block
+	CurrentBlock  *Block
 	parsers       []func(string)
 }
 
-type Item struct {
-	Kind      string
-	reference string
-	Text      string
 
-	StartLineNum int
-	StartCharNum int
-	EndLineNum   int
-	EndCharNum   int
-
-	ParentItem *Item
-	ChildItems []*Item
-}
 
 func NewParser() *Parser {
 	p := Parser{}
 	p.LineNum = 1
 	p.CharNum = 0
-	p.CurrentBlock = &Item{Kind: "WHITESPACE"}
-	p.Content = p.CurrentBlock
+	p.CurrentBlock = &Block{}
+  p.CurrentBlock.Kind = "WHITESPACE"
+  p.Content = p.CurrentBlock
+  p.CursorEnv = p.CurrentBlock.Kind
 	parsers := []func(string){p.IncrementCursor}
 	p.RegisterParsers(parsers)
 	return &p
@@ -68,8 +58,8 @@ func (p *Parser) IncrementCursor(s string) {
 	}
 }
 
-func (p *Parser) NewBlock(kind string) *Item {
-	i := &Item{}
+func (p *Parser) NewBlock(kind string) *Block {
+	i := &Block{}
 	i.Kind = kind
 	i.StartLineNum = p.LineNum
 	i.StartCharNum = p.CharNum
@@ -78,8 +68,8 @@ func (p *Parser) NewBlock(kind string) *Item {
 
 func (p *Parser) AddBlock(kind string) {
 	i := p.NewBlock(kind)
-	i.ParentItem = p.CurrentBlock
-	p.CurrentBlock.ChildItems = append(p.CurrentBlock.ChildItems, i)
+	i.ParentBlock = p.CurrentBlock
+	p.CurrentBlock.ChildBlocks = append(p.CurrentBlock.ChildBlocks, i)
 	p.CurrentBlock = i
 	p.CursorEnv = kind
 }
@@ -87,13 +77,13 @@ func (p *Parser) AddBlock(kind string) {
 func (p *Parser) EndBlock() {
 	p.CurrentBlock.EndLineNum = p.LineNum
 	p.CurrentBlock.EndCharNum = p.CharNum
-	p.CurrentBlock = p.CurrentBlock.ParentItem
+	p.CurrentBlock = p.CurrentBlock.ParentBlock
 	p.CursorEnv = p.CurrentBlock.Kind
 }
 
 func (p *Parser) AddChar(s string) {
-	p.CurrentBlock.Text += p.indicator + s
-	p.indicator = ""
+	p.CurrentBlock.Text += p.Indicator + s
+	p.Indicator = ""
 	p.Match = true
 }
 
@@ -139,11 +129,20 @@ func (p *Parser) EndCode() {
 }
 
 func (p *Parser) NewBody() {
+  endChar := p.CharNum - 1
+  p.CurrentBlock.EndLineNum = p.LineNum
+  if endChar == 0 {
+    p.CurrentBlock.EndLineNum += -1
+    p.CurrentBlock.EndCharNum = p.LastLineLen
+  } else {
+    p.CurrentBlock.EndCharNum = endChar
+  }
 	p.NewWhiteSpace()
 }
 
 func (p *Parser) EndBody() {
 	p.EndWhiteSpace()
+  p.EndBlock()
 }
 
 func (p *Parser) NewChar() {
