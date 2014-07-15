@@ -177,6 +177,23 @@ var _ = Describe("JavaParser Integration", func() {
         f.RunAll(m)
       })
 
+      Context("class", func() {
+        f := MakeTestFactory(&p)
+        m := f.NewMap()
+        f.BeforeEach(func() {
+          m["childnum"] = 7
+          m["kind"] = "CODE"
+          m["startline"] = 15
+          m["endline"] = 21
+          m["startchar"] = 1
+          m["endchar"] = 1
+          m["text"] = "public class OAuth10aServiceImpl implements OAuthService "
+          m["parent"] = p.Content
+          m["children"] = HaveLen(2)
+        })
+        f.RunAll(m)
+      })
+
     })
   })
 
@@ -216,7 +233,7 @@ func MakeTestFactory(pp **Parser) *Factory {
     Expect(b.ParentBlock).Should(Equal( f.Val("parent").(*Block) ))
   })
   f.It("children", "has corrent child blocks (none)", func() {
-    Expect(b.ChildBlocks).Should(f.Val("children"))
+    Expect(b.GetChildren()).Should(f.Val("children"))
   })
 
   return f
@@ -254,7 +271,7 @@ func MakeMethodTestFactory(pp **Parser, method_index int) *Factory {
     Expect(b.ParentBlock).Should(Equal( f.Val("parent").(*Block) ))
   })
   f.It("children", "has corrent child blocks (none)", func() {
-    Expect(b.ChildBlocks).Should(f.Val("children"))
+    Expect(b.GetChildren()).Should(f.Val("children"))
   })
 
   return f

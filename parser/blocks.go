@@ -6,6 +6,15 @@ type Block struct {
   ChildBlocks []*Block
 }
 
+func (b *Block) GetChildren() []*Block {
+  if len(b.ChildBlocks) == 1 {
+    if b.ChildBlocks[0].Kind == "WHITESPACE" {
+      return b.ChildBlocks[0].ChildBlocks
+    }
+  }
+  return b.ChildBlocks
+}
+
 type Item struct {
   Kind      string
   Text      string
