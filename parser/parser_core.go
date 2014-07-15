@@ -142,6 +142,7 @@ func (p *Parser) NewBody() {
 
 func (p *Parser) EndBody() {
 	p.EndWhiteSpace()
+  p.EndBlock()
 }
 
 func (p *Parser) NewChar() {

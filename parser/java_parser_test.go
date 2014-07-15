@@ -150,15 +150,33 @@ var _ = Describe("JavaParser Integration", func() {
           m["childnum"] = 6
           m["kind"] = "CODE"
           m["startline"] = 10
-          m["endline"] = 11
+          m["endline"] = 14
           m["startchar"] = 1
-          m["endchar"] = 34
+          m["endchar"] = 1
           m["text"] = "public int testMethod(int var1, double var2, string var3,\n                         foo var4)\n"
           m["parent"] = p.Content
           m["children"] = HaveLen(1)
         })
         f.RunAll(m)
       })
+
+      Context("whitespace in method", func() {
+        f := MakeMethodTestFactory(&p, 6)
+        m := f.NewMap()
+        f.BeforeEach(func() {
+          m["childnum"] = 0
+          m["kind"] = "WHITESPACE"
+          m["startline"] = 12
+          m["endline"] = 14
+          m["startchar"] = 1
+          m["endchar"] = 1
+          m["text"] = ""
+          m["parent"] = p.Content.ChildBlocks[6]
+          m["children"] = HaveLen(1)
+        })
+        f.RunAll(m)
+      })
+
     })
   })
 
@@ -201,12 +219,46 @@ func MakeTestFactory(pp **Parser) *Factory {
     Expect(b.ChildBlocks).Should(f.Val("children"))
   })
 
-
   return f
 }
 
 
+func MakeMethodTestFactory(pp **Parser, method_index int) *Factory {
+  f := NewTestFactory()
 
+  var b *Block // b -> package declaration
+
+  f.JustBeforeEach(func() {
+    p := *pp
+    b = p.Content.ChildBlocks[method_index].ChildBlocks[f.Int("childnum")]
+  })
+  f.It("kind", "has correct Kind", func() {
+    Expect(b.Kind).Should(Equal(f.String("kind")))
+  })
+  f.It("startline", "has correct start line number", func() {
+    Expect(b.StartLineNum).Should(Equal(f.Int("startline")))
+  })
+  f.It("endline", "has correct end line number", func() {
+    Expect(b.EndLineNum).Should(Equal(f.Int("endline")))
+  })
+  f.It("startchar", "has correct start char number", func() {
+    Expect(b.StartCharNum).Should(Equal(f.Int("startchar")))
+  })
+  f.It("endchar", "has correct end char number", func() {
+    Expect(b.EndCharNum).Should(Equal(f.Int("endchar")))
+  })
+  f.It("text", "has correct text", func() {
+    Expect(b.Text).Should(Equal(f.String("text")))
+  })
+  f.It("parent", "has correct parent block", func() {
+    Expect(b.ParentBlock).Should(Equal( f.Val("parent").(*Block) ))
+  })
+  f.It("children", "has corrent child blocks (none)", func() {
+    Expect(b.ChildBlocks).Should(f.Val("children"))
+  })
+
+  return f
+}
 
 
 var multicomment_1 = strings.Join([]string{
@@ -223,6 +275,16 @@ var method_1 = strings.Join([]string{
       "}", 
     }, "\n")
 
+var class_1 = strings.Join([]string{
+      "public class OAuth10aServiceImpl implements OAuthService {",
+      "   private static final String VERSION = \"1.0\";",
+      "   public Token getRequestToken(int timeout, TimeUnit unit)",
+      "   {",
+      "   return getRequestToken(new TimeoutTuner(timeout, unit));",
+      "   }",
+      "}",
+    }, "\n")
+
 var java_slice = []string{
       "package com.scribe.oauth;",
       multicomment_1,
@@ -232,6 +294,7 @@ var java_slice = []string{
       "// single line comment",
       "",
       method_1,
+      class_1,
     }
 
 var java_code = strings.Join(java_slice, "\n")

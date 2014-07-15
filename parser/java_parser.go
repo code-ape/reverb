@@ -41,6 +41,8 @@ func (p *Parser) ParseContent(s string) {
 		switch s {
 		case "/":
 			p.Indicator = "/"
+    case "}":
+      p.EndBody()
 		default:
 			if p.CursorEnv == "CONTENT" {
 				p.NewCode()
