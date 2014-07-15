@@ -2,7 +2,7 @@ package factory
 
 import (
   . "github.com/onsi/ginkgo"
-  //. "github.com/onsi/gomega"
+  . "github.com/onsi/gomega/types"
   "reflect"
 )
 
@@ -79,4 +79,11 @@ func (fa *Factory) String(key string) string {
   v := m[key]
   return reflect.ValueOf(v).String()
 }
+
+func (fa *Factory) Matcher(key string) GomegaMatcher {
+  m :=  *(fa.Map)
+  v := m[key]
+  return v.(GomegaMatcher)
+}
+
 

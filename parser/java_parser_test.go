@@ -233,7 +233,7 @@ func MakeTestFactory(pp **Parser) *Factory {
     Expect(b.ParentBlock).Should(Equal( f.Val("parent").(*Block) ))
   })
   f.It("children", "has corrent child blocks (none)", func() {
-    Expect(b.GetChildren()).Should(f.Val("children"))
+    Expect(b.GetChildren()).Should(f.Matcher("children"))
   })
 
   return f
@@ -271,7 +271,7 @@ func MakeMethodTestFactory(pp **Parser, method_index int) *Factory {
     Expect(b.ParentBlock).Should(Equal( f.Val("parent").(*Block) ))
   })
   f.It("children", "has corrent child blocks (none)", func() {
-    Expect(b.GetChildren()).Should(f.Val("children"))
+    Expect(b.GetChildren()).Should(f.Matcher("children"))
   })
 
   return f
