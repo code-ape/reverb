@@ -194,6 +194,40 @@ var _ = Describe("JavaParser Integration", func() {
         f.RunAll(m)
       })
 
+      Context("char declaration", func() {
+        f := MakeTestFactory(&p)
+        m := f.NewMap()
+        f.BeforeEach(func() {
+          m["childnum"] = 8
+          m["kind"] = "CODE"
+          m["startline"] = 22
+          m["endline"] = 22
+          m["startchar"] = 1
+          m["endchar"] = 14
+          m["text"] = "char ch = ;"
+          m["parent"] = p.Content
+          m["children"] = HaveLen(1)
+        })
+        f.RunAll(m)
+      })
+
+      Context("char", func() {
+        f := MakeMethodTestFactory(&p, 8)
+        m := f.NewMap()
+        f.BeforeEach(func() {
+          m["childnum"] = 0
+          m["kind"] = "CHAR"
+          m["startline"] = 22
+          m["endline"] = 22
+          m["startchar"] = 11
+          m["endchar"] = 13
+          m["text"] = "'a'"
+          m["parent"] = p.Content.ChildBlocks[8]
+          m["children"] = BeZero()
+        })
+        f.RunAll(m)
+      })
+
     })
   })
 
@@ -312,6 +346,7 @@ var java_slice = []string{
       "",
       method_1,
       class_1,
+      "char ch = 'a';",
     }
 
 var java_code = strings.Join(java_slice, "\n")
