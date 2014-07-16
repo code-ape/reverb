@@ -1,0 +1,126 @@
+
+things:
+	declerations:
+		- package
+		- import
+			- options: static
+		- class
+			- options:
+				- static
+				- final
+		- interface
+		- enum
+		- variables
+			- options:
+				- type
+				- static
+				- public || private || neither
+				- final
+		- method
+			- options:
+				- final
+
+
+keywords:
+	type:
+		- boolean
+		- byte
+		- char
+		- double
+		- float
+		- int
+		- long
+		- short
+		- void
+	flow:
+		- assert
+		- break
+		- case
+		- catch
+		- continue
+		- default
+		- do
+		- else
+		- finally
+		- for
+		- if
+		- new
+		- return
+		- switch
+		- throw
+		- try
+		- while
+	declare:
+		- class
+		- enum
+		- interface
+		- import
+		- package
+	modifier:
+		- abstract
+		- extends
+		- final
+		- implements
+		- private
+		- public
+		- static
+		- throws
+	item:
+		- this
+		- super
+	operators:
+		postfix:
+			- ++
+			- --
+		unary: #preceeds a value to modify it, ex: -1
+			- ++
+			- --
+			- +
+			- -
+			- ~
+			- !
+		math:
+			- +
+			- -
+			- *
+			- /
+			- %
+			- >>
+			- <<
+			- >>>
+			- &
+			- |
+			- ^
+		comparisions:
+			- <
+			- >
+			- <=
+			- >=
+			- instanceof
+			- ==
+			- !=
+		logic:
+			- &&
+			- ||
+		ternary:
+			- ?
+			- :
+		assignment:
+			- =
+			- +=
+			- -=
+			- *=
+			- /=
+			- %=
+			- &=
+			- ^=
+			- |=
+			- <<=
+			- >>=
+			- >>>=
+	- synchronized
+	- protected
+	- transient
+	- strictfp
+	- volatile
+	- native
