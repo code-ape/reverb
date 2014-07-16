@@ -65,8 +65,6 @@ func (p *Parser) ParseCode(s string) {
 		p.NewString()
 	case "{":
 		p.NewBody()
-	case "}":
-		p.EndBody()
 	case ";":
 		p.EndCode()
 	default:

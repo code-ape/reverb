@@ -26,7 +26,7 @@ type Item struct {
 }
 
 type Package struct {
-	Item        *Item
+	Block
 	Static      bool
 	PackageName string
 }
@@ -39,19 +39,19 @@ type Variable struct {
 }
 
 type VariableDeclaration struct {
-	Item
+	Block
 	Variable   *Variable
 	Assignemnt *ValueAssignment
 }
 
 type ValueAssignment struct {
-	Item
+	Block
 	Target       *Variable
 	Dependencies *Variable
 }
 
 type MethodDeclaration struct {
-	Item
+	Block
 	Modifier       string // public, private
 	ReturnType     string
 	Name           string
