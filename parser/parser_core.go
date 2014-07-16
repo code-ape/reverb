@@ -1,29 +1,27 @@
 package parser
 
 type Parser struct {
-	CursorEnv     string
-	Match         bool
-	LineNum       int
-	CharNum       int
-	LastLineLen   int
-	line          string
-	block         string
-	Indicator     string
-	Content       *Block
-	CurrentBlock  *Block
-	parsers       []func(string)
+	CursorEnv    string
+	Match        bool
+	LineNum      int
+	CharNum      int
+	LastLineLen  int
+	line         string
+	block        string
+	Indicator    string
+	Content      *Block
+	CurrentBlock *Block
+	parsers      []func(string)
 }
-
-
 
 func NewParser() *Parser {
 	p := Parser{}
 	p.LineNum = 1
 	p.CharNum = 0
 	p.CurrentBlock = &Block{}
-  p.CurrentBlock.Kind = "WHITESPACE"
-  p.Content = p.CurrentBlock
-  p.CursorEnv = p.CurrentBlock.Kind
+	p.CurrentBlock.Kind = "WHITESPACE"
+	p.Content = p.CurrentBlock
+	p.CursorEnv = p.CurrentBlock.Kind
 	parsers := []func(string){p.IncrementCursor}
 	p.RegisterParsers(parsers)
 	return &p
@@ -129,20 +127,20 @@ func (p *Parser) EndCode() {
 }
 
 func (p *Parser) NewBody() {
-  endChar := p.CharNum - 1
-  p.CurrentBlock.EndLineNum = p.LineNum
-  if endChar == 0 {
-    p.CurrentBlock.EndLineNum += -1
-    p.CurrentBlock.EndCharNum = p.LastLineLen
-  } else {
-    p.CurrentBlock.EndCharNum = endChar
-  }
+	endChar := p.CharNum - 1
+	p.CurrentBlock.EndLineNum = p.LineNum
+	if endChar == 0 {
+		p.CurrentBlock.EndLineNum += -1
+		p.CurrentBlock.EndCharNum = p.LastLineLen
+	} else {
+		p.CurrentBlock.EndCharNum = endChar
+	}
 	p.NewWhiteSpace()
 }
 
 func (p *Parser) EndBody() {
 	p.EndWhiteSpace()
-  p.EndBlock()
+	p.EndBlock()
 }
 
 func (p *Parser) NewChar() {

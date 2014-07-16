@@ -11,7 +11,7 @@ const TestKind = "TEST_KIND"
 
 var _ = Describe("ParserCore", func() {
 
-  var p *Parser
+	var p *Parser
 
 	Describe("NewParser", func() {
 
@@ -26,18 +26,17 @@ var _ = Describe("ParserCore", func() {
 			Expect(p).Should(BeAssignableToTypeOf(null_p))
 		})
 
-    It("sets CursorEnv to CurrentBlock Kind", func() {
-      Expect(p.CursorEnv).Should(Equal(p.CurrentBlock.Kind))
-    })
+		It("sets CursorEnv to CurrentBlock Kind", func() {
+			Expect(p.CursorEnv).Should(Equal(p.CurrentBlock.Kind))
+		})
 
 	})
 
-
 	Describe("IncrementCursor", func() {
 
-    BeforeEach(func(){
-      p = NewParser()
-    })
+		BeforeEach(func() {
+			p = NewParser()
+		})
 
 		It("increments char number", func() {
 			line_i, char_i := p.LineNum, p.CharNum
@@ -55,91 +54,91 @@ var _ = Describe("ParserCore", func() {
 
 	})
 
-  Describe("NewBlock", func() {
-    var b *Block
+	Describe("NewBlock", func() {
+		var b *Block
 
-    BeforeEach(func() {
-      p = NewParser()
-      b = p.NewBlock(TestKind)
-    })
+		BeforeEach(func() {
+			p = NewParser()
+			b = p.NewBlock(TestKind)
+		})
 
-    It("is has the kind it was inited with", func() {
-      Expect(b.Kind).Should(Equal(TestKind))
-    })
+		It("is has the kind it was inited with", func() {
+			Expect(b.Kind).Should(Equal(TestKind))
+		})
 
-    It("inits with the correct line and char number", func() {
-      Expect(b.StartLineNum).Should(Equal(p.LineNum))
-      Expect(b.StartCharNum).Should(Equal(p.CharNum))
-    })
+		It("inits with the correct line and char number", func() {
+			Expect(b.StartLineNum).Should(Equal(p.LineNum))
+			Expect(b.StartCharNum).Should(Equal(p.CharNum))
+		})
 
-  })
+	})
 
-  Describe("AddBlock", func() {
+	Describe("AddBlock", func() {
 
-    BeforeEach(func() {
-      p = NewParser()
+		BeforeEach(func() {
+			p = NewParser()
 
-    })
+		})
 
-    It("adds a block under the current one", func() {
-      len_child_i := len(p.Content.ChildBlocks)
-      p.AddBlock(TestKind)
-      len_child_f := len(p.Content.ChildBlocks)
-      Expect(len_child_f).Should(Equal(len_child_i + 1))
-    })
+		It("adds a block under the current one", func() {
+			len_child_i := len(p.Content.ChildBlocks)
+			p.AddBlock(TestKind)
+			len_child_f := len(p.Content.ChildBlocks)
+			Expect(len_child_f).Should(Equal(len_child_i + 1))
+		})
 
-    It("new block is child of previous block", func() {
-      b_i := p.CurrentBlock
-      p.AddBlock(TestKind)
-      Expect(b_i.ChildBlocks).Should(ContainElement(p.CurrentBlock))
-    })
+		It("new block is child of previous block", func() {
+			b_i := p.CurrentBlock
+			p.AddBlock(TestKind)
+			Expect(b_i.ChildBlocks).Should(ContainElement(p.CurrentBlock))
+		})
 
-    It("previous block is parent of new block", func() {
-      b_i := p.CurrentBlock
-      p.AddBlock(TestKind)
-      Expect(p.CurrentBlock.ParentBlock).Should(Equal(b_i))
-    })
+		It("previous block is parent of new block", func() {
+			b_i := p.CurrentBlock
+			p.AddBlock(TestKind)
+			Expect(p.CurrentBlock.ParentBlock).Should(Equal(b_i))
+		})
 
-  })
+	})
 
-  Describe("EndBlock", func() {
-    
-    Context("after AddBlock has been called", func() {
-      BeforeEach(func() {
-        p = NewParser()
-        p.AddBlock(TestKind)
-      })
+	Describe("EndBlock", func() {
 
-      It("sets correct end line and char numbers", func() {
-        b := p.CurrentBlock
-        p.EndBlock()
-        Expect(b.EndLineNum).Should(Equal(p.LineNum))
-        Expect(b.EndCharNum).Should(Equal(p.CharNum))
-      })
+		Context("after AddBlock has been called", func() {
+			BeforeEach(func() {
+				p = NewParser()
+				p.AddBlock(TestKind)
+			})
 
-      It("sets current block to parent block", func() {
-        par := p.CurrentBlock.ParentBlock
-        p.EndBlock()
-        Expect(p.CurrentBlock).Should(Equal(par))
-      })
+			It("sets correct end line and char numbers", func() {
+				b := p.CurrentBlock
+				p.EndBlock()
+				Expect(b.EndLineNum).Should(Equal(p.LineNum))
+				Expect(b.EndCharNum).Should(Equal(p.CharNum))
+			})
 
-      It("sets cursor to parent block kind", func() {
-        par := p.CurrentBlock.ParentBlock
-        p.EndBlock()
-        Expect(p.CursorEnv).Should(Equal(par.Kind))
-      })
+			It("sets current block to parent block", func() {
+				par := p.CurrentBlock.ParentBlock
+				p.EndBlock()
+				Expect(p.CurrentBlock).Should(Equal(par))
+			})
 
-    })
+			It("sets cursor to parent block kind", func() {
+				par := p.CurrentBlock.ParentBlock
+				p.EndBlock()
+				Expect(p.CursorEnv).Should(Equal(par.Kind))
+			})
 
-  })
+		})
 
-  Describe("AddChar", func() {
-    It("adds indicator then given char to text of currentblock", func() {
-      p.CurrentBlock.Text = "a"
-      p.Indicator = "b"
-      p.AddChar("c")
-      Expect(p.CurrentBlock.Text).Should(Equal("abc"))
-      })
-  })
+	})
+
+	Describe("AddChar", func() {
+		It("adds indicator then given char to text of currentblock", func() {
+			p.CurrentBlock.Text = "a"
+			p.Indicator = "b"
+			p.AddChar("c")
+			Expect(p.CurrentBlock.Text).Should(Equal("abc"))
+		})
+	})
 
 })

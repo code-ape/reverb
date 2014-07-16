@@ -41,8 +41,8 @@ func (p *Parser) ParseContent(s string) {
 		switch s {
 		case "/":
 			p.Indicator = "/"
-    case "}":
-      p.EndBody()
+		case "}":
+			p.EndBody()
 		default:
 			if p.CursorEnv == "CONTENT" {
 				p.NewCode()
@@ -96,9 +96,9 @@ func (p *Parser) ParseMultiComment(s string) {
 		switch s {
 		case "/":
 			p.EndMultiComment()
-    case "*":
-      p.AddChar("")
-      p.Indicator = "*"
+		case "*":
+			p.AddChar("")
+			p.Indicator = "*"
 		default:
 			p.AddChar(s)
 		}
