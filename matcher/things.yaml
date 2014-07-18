@@ -1,0 +1,107 @@
+things:
+	whitespace:
+		" "
+		"\t"
+	newline:
+		"\n"
+	comments:
+		"/*"
+		"*/"
+		"//"
+	string:
+		"\""
+	char:
+		"'"
+	seperators:
+		"."
+		","
+		";"
+		":"
+	brackets:
+		"("
+		")"
+		"["
+		"]"
+		"{"
+		"}"
+	symbol core:
+		"+"
+		"-"
+		"*"
+		"/"
+		"<"
+		">"
+		"="
+		"~"
+		"^"
+		"%"
+		":"
+		"?"
+		"@"
+		"&"
+		"|"
+	words:
+		contain:
+			at least one:
+					letter:
+					"[a-z]"
+					"[A-Z]"
+			can contain:
+				"0-9"
+				"_"
+	number:
+		contain:
+			at least one:
+				"0-9"
+			can contain:
+				"." x1
+			can only contain one:
+				"f" @end
+				"L" @end
+				"d" @end
+	hex:
+		begins with:
+			"0x"
+		followed by:
+			"[0-9]" or "[a-f]" or "[A-F]"
+
+
+	symbols:
+		"+"
+		"-"
+		"~"
+		"*"
+		"/"
+		"%"
+		"++"
+		"--"
+		">>"
+		"<<"
+		">>>"
+		"&"
+		"|"
+		"^"
+		"<"
+		">"
+		"<="
+		">="
+		"=="
+		"!="
+		"&&"
+		"||"
+		"?"
+		":"
+		"="
+		"+="
+		"-="
+		"*="
+		"/="
+		"%="
+		"&="
+		"^="
+		"|="
+		"<<="
+		">>="
+		">>>="
+		"@"
+
